@@ -5,18 +5,25 @@
   "scripts": {
     "build": "webpack --progress",
     "test": "./node_modules/.bin/karma start",
-    "test:watch": "./node_modules/.bin/karma start --auto-watch --no-single-run"
+    "test:watch": "./node_modules/.bin/karma start --auto-watch --no-single-run",
+    "test:gitlab": "./node_modules/.bin/karma start --reporters coverage",
+    "test:ci": "./node_modules/.bin/karma start --reporters coverage-istanbul"
   },
   "dependencies": {
     "chai": "^4.1.2",
+    "istanbul-instrumenter-loader": "^3.0.0",
     "karma": "^1.7.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coverage-istanbul-reporter": "^1.3.0",
     "karma-mocha": "^1.3.0",
     "karma-sinon": "^1.0.5",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.5",
     "mocha": "^4.0.1",
     "sinon": "^4.0.1",
     "webpack": "^3.6.0"
-  }
+  },
+  "devDependencies": {}
 }

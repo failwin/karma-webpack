@@ -1,20 +1,14 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const rootPath = __dirname;
+const srcPath = path.join(rootPath, 'src');
+
 module.exports = {
+    devtool: 'inline-source-map',
 
     entry: {
-        script: path.resolve(__dirname, "./entry.js")
-    },
-
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use: "babel-loader",
-                exclude: /(\/node_modules\/|test\.js|\.spec\.js$)/
-            }
-        ]
+        script: path.resolve(srcPath, "./entry.js")
     },
 
     output: {
@@ -23,12 +17,15 @@ module.exports = {
         pathinfo: true
     },
 
-    resolve: {
-        extensions: [".js"],
-        modules: [
-            __dirname,
-            path.resolve(__dirname, "./node_modules")
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                include: srcPath,
+                use: {
+                    loader: 'istanbul-instrumenter-loader'
+                }
+            },
         ]
     }
-
 };

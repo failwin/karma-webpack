@@ -1,3 +1,7 @@
+var path = require('path');
+
+var webpackConfig = require('./webpack.config');
+
 // Karma configuration
 // Generated on Wed Oct 11 2017 09:07:24 GMT+0300 (FLE Daylight Time)
 
@@ -31,14 +35,14 @@ module.exports = function(config) {
       preprocessors: {
           // only specify one entry point
           // and require all tests in there
-          'test/index.js': ['webpack']
+          'test/index.js': ['webpack', 'sourcemap', 'coverage']
       },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress'], //'coverage' , 'coverage-istanbul'
 
 
     // web server port
@@ -73,40 +77,36 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity,
 
-      webpack: {
-          // webpack configuration
-          // module: {
-          //     loaders: [
-          //         {test: /\.css$/, loader: "style!css"},
-          //         {test: /\.less$/, loader: "style!css!less"}
-          //     ],
-          //     postLoaders: [{
-          //         test: /\.js/,
-          //         exclude: /(test|node_modules|bower_components)/,
-          //         loader: 'istanbul-instrumenter'
-          //     }]
-          // },
-          // resolve: {
-          //     modulesDirectories: [
-          //         "",
-          //         "src",
-          //         "node_modules"
-          //     ]
-          // }
-      },
+      webpack: webpackConfig,
 
-      webpackMiddleware: {
-          // webpack-dev-middleware configuration
+      webpackServer: {
           noInfo: true
       },
+      webpackMiddleware: {
+          noInfo: true,
+          stats: {
+              chunks: false
+          }
+      },
 
-      // plugins: [
-      //     require("karma-webpack"),
-      //     require("istanbul-instrumenter-loader"),
-      //     require("karma-mocha"),
-      //     require("karma-coverage"),
-      //     require("karma-phantomjs-launcher"),
-      //     require("karma-spec-reporter")
-      // ],
+      coverageIstanbulReporter: {
+          reports: ['html', 'lcovonly' ],
+          dir: path.join(__dirname, 'coverage'),
+          fixWebpackSourcePaths: true,
+          'report-config': {
+              html: {
+                  subdir: 'html'
+              }
+          }
+      },
+
+      coverageReporter: {
+          includeAllSources: true,
+          reporters: [
+              {
+                  type: 'text-summary',
+              }
+          ],
+      }
   })
 }
