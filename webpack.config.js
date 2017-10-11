@@ -21,6 +21,27 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            'stage-0',
+                            ['env', {
+                                targets: {
+                                    browsers: [
+                                        'last 5 versions',
+                                        'iOS 8.1',
+                                    ],
+                                },
+                            }],
+                        ],
+                        plugins: ['transform-runtime'],
+                    },
+                },
+            },
+            {
+                test: /\.js$/,
                 include: srcPath,
                 use: {
                     loader: 'istanbul-instrumenter-loader'
